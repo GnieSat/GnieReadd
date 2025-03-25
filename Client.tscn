@@ -1,0 +1,95 @@
+[gd_scene load_steps=4 format=3 uid="uid://c7sa6xip63i0g"]
+
+[ext_resource type="Script" path="res://Client.gd" id="1_i6qk6"]
+[ext_resource type="Texture2D" uid="uid://b26m4wpy87n6j" path="res://colorblock.png" id="2_i0psd"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_d2noj"]
+properties/0/path = NodePath(".:Pos")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:Speed")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:Distance")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+
+[node name="Screen" type="Node2D"]
+script = ExtResource("1_i6qk6")
+
+[node name="Colorblock" type="Sprite2D" parent="."]
+modulate = Color(0.167343, 0.177948, 0.189281, 1)
+position = Vector2(451.125, 109.25)
+scale = Vector2(8.9775, 2.135)
+texture = ExtResource("2_i0psd")
+
+[node name="Join" type="Button" parent="."]
+offset_left = 176.0
+offset_top = 127.0
+offset_right = 223.0
+offset_bottom = 158.0
+text = "Join"
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_d2noj")
+
+[node name="LineEdit" type="LineEdit" parent="."]
+offset_left = 12.0
+offset_top = 126.0
+offset_right = 166.0
+offset_bottom = 157.0
+placeholder_text = "IP"
+
+[node name="Node" type="Node2D" parent="."]
+
+[node name="X" type="Label" parent="Node"]
+offset_left = 21.0
+offset_top = 11.0
+offset_right = 61.0
+offset_bottom = 34.0
+text = "X (west/east) in meters:"
+
+[node name="Z" type="Label" parent="Node"]
+offset_left = 21.0
+offset_top = 36.0
+offset_right = 114.0
+offset_bottom = 59.0
+text = "Z (north/south) in meters:"
+
+[node name="Y" type="Label" parent="Node"]
+offset_left = 357.0
+offset_right = 491.0
+offset_bottom = 23.0
+text = "Height in meters:"
+
+[node name="Speed" type="Label" parent="Node"]
+offset_left = 357.0
+offset_top = 22.0
+offset_right = 491.0
+offset_bottom = 45.0
+text = "Speed in m/s:"
+
+[node name="Distance" type="Label" parent="Node"]
+offset_left = 356.0
+offset_top = 43.0
+offset_right = 505.0
+offset_bottom = 66.0
+text = "Distance in metets:"
+
+[node name="Status" type="Label" parent="Node"]
+offset_left = 233.0
+offset_top = 133.0
+offset_right = 410.0
+offset_bottom = 156.0
+text = "Status: disconnected"
+
+[node name="IP" type="Label" parent="Node"]
+offset_left = 11.0
+offset_top = 163.0
+offset_right = 188.0
+offset_bottom = 186.0
+text = "IP: localhost"
+
+[connection signal="pressed" from="Join" to="." method="_on_join_pressed"]
+[connection signal="synchronized" from="MultiplayerSynchronizer" to="." method="_on_multiplayer_synchronizer_synchronized"]
+[connection signal="text_submitted" from="LineEdit" to="." method="_on_line_edit_text_submitted"]
